@@ -48,7 +48,7 @@ roteador.put('/:idFornecedor', async (req, res) => {
         const dados = Object.assign({}, dadosRecebidos, {id: id});
         const fornecedor = new Fornecedor(dados);
         await fornecedor.atualizar();
-        res.end();
+        res.status(204).end();
     } catch (erro){
         res.status(400).send(
             JSON.stringify({
@@ -64,7 +64,7 @@ roteador.delete('/:idFornecedor', async (req, res) => {
         const fornecedor = new Fornecedor({ id: id});
         await fornecedor.carregar();
         await fornecedor.remover();
-        res.end();
+        res.status(204).end();
     } catch (erro) {
         res.status(400).send(
             JSON.stringify({
