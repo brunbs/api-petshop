@@ -50,6 +50,29 @@ class Produto {
         this.versao = produto.versao;
     }
 
+    async atualizar() {
+        const dadosParaAtualizar = {};
+        if(typeof this.titulo === 'string' && this.titulo.length > 0) {
+            dadosParaAtualizar.titulo = this.titulo;
+        }
+        if(typeof this.preco === 'number' && this.preco > 0) {
+            dadosParaAtualizar.preco = this.preco;
+        }
+        if(typeof this.estoque === 'number' && this.estoque >= 0) {
+            dadosParaAtualizar.estoque = this.estoque;
+        }
+        if(Object.keys(dadosParaAtualizar).length === 0) {
+            throw new Error('Não foram fornecidos dados para atualizar');
+        }
+        return Tabela.atualizar(
+            {
+                id: this.id,
+                fornecedor: this.fornecedor
+            },
+            dadosParaAtualizar
+        );
+    }
+
 }
 
 
