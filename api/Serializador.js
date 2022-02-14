@@ -7,14 +7,22 @@ class Serializador {
 
     serializar(dados) {
         if(this.contentType === 'application/json') {
-            this.json(dados);
+            return this.json(dados);
         }
 
         throw new ValorNaoSuportado(this.contentType);
     }
 }
 
+class SerializadorFornecedor extends Serializador {
+    constructor(contentType) {
+        super();
+        this.contentType = contentType;
+    }
+}
+
 module.exports = {
     Serializador: Serializador,
+    SerializadorFornecedor: SerializadorFornecedor,
     formatosAceitos: ['application/json']
 }
