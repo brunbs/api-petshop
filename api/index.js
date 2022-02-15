@@ -12,6 +12,11 @@ const SerializadorErro = require('./Serializador').SerializadorErro;
 app.use(bodyParser.json());
 
 app.use((req, res, proximo) => {
+    res.set('X-Powered-By', 'Bruno Barbosa');
+    proximo();
+})
+
+app.use((req, res, proximo) => {
     let formatoRequisitado = req.header('Accept');
     if(formatoRequisitado === '*/*') {
         formatoRequisitado = 'application/json';
