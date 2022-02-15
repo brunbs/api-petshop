@@ -3,6 +3,13 @@ const Tabela = require('./TabelaProduto');
 const Produto = require('./Produto');
 const Serializador = require('../../../Serializador').SerializadorProduto;
 
+roteador.options('/', (req, res) => {
+    res.set('Access-Controle-Allow-Methods', 'GET, POST');
+    res.set('Access-Controle-Allow-Headers', 'Content-Type');
+    res.status(204);
+    res.end();
+});
+
 roteador.get('/', async (req, res) => {
     const produtos = await Tabela.listar(req.fornecedor.id);
     const serializador = new Serializador(
@@ -34,6 +41,13 @@ roteador.post('/', async (req, res, proximo) => {
     }
     
 })
+
+roteador.options('/:id', (req, res) => {
+    res.set('Access-Controle-Allow-Methods', 'GET, PUT, DELETE, HEAD');
+    res.set('Access-Controle-Allow-Headers', 'Content-Type');
+    res.status(204);
+    res.end();
+});
 
 roteador.delete('/:id', async (req, res) => {
     const dados = {
@@ -113,6 +127,13 @@ roteador.put('/:id', async (req, res, proximo) => {
         proximo(erro);
     }
 })
+
+roteador.options('/:id/diminuir-estoque', (req, res) => {
+    res.set('Access-Controle-Allow-Methods', 'POST');
+    res.set('Access-Controle-Allow-Headers', 'Content-Type');
+    res.status(204);
+    res.end();
+});
 
 roteador.post('/:id/diminuir-estoque', async (req, res, proximo) => {
     try {

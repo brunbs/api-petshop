@@ -5,6 +5,13 @@ const { append } = require('express/lib/response');
 const SerializadorFornecedor = require('../../Serializador').SerializadorFornecedor;
 const TabelaProduto = require('./produtos/TabelaProduto');
 
+roteador.options('/', (req, res) => {
+    res.set('Access-Controle-Allow-Methods', 'GET, POST');
+    res.set('Access-Controle-Allow-Headers', 'Content-Type');
+    res.status(204);
+    res.end();
+});
+
 roteador.get('/', async (req, res) => {
     const resultados = await TabelaFornecedor.listar();
     res.status(200);
@@ -32,6 +39,13 @@ roteador.post('/', async (req, res, proximo) => {
         proximo(erro);
     }
     
+});
+
+roteador.options('/:idFornecedor', (req, res) => {
+    res.set('Access-Controle-Allow-Methods', 'GET, PUT, DELETE');
+    res.set('Access-Controle-Allow-Headers', 'Content-Type');
+    res.status(204);
+    res.end();
 });
 
 roteador.get('/:idFornecedor', async (req, res, proximo) => {

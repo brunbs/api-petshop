@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
 const config = require('config');
@@ -10,9 +11,11 @@ const formatosAceitos = require('./Serializador').formatosAceitos;
 const SerializadorErro = require('./Serializador').SerializadorErro;
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use((req, res, proximo) => {
     res.set('X-Powered-By', 'Bruno Barbosa');
+    res.set('Access-Control-Allow-Origin', '*');
     proximo();
 })
 
