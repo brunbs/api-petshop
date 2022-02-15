@@ -8,8 +8,7 @@ const TabelaProduto = require('./produtos/TabelaProduto');
 roteador.options('/', (req, res) => {
     res.set('Access-Controle-Allow-Methods', 'GET, POST');
     res.set('Access-Controle-Allow-Headers', 'Content-Type');
-    res.status(204);
-    res.end();
+    res.status(204).end();
 });
 
 roteador.get('/', async (req, res) => {
