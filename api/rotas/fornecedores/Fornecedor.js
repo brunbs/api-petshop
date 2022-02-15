@@ -1,6 +1,8 @@
 const TabelaFornecedor = require('./TabelaFornecedor');
 const CampoInvalido = require('../../erros/CampoInvalido');
+const ErroValidacao = require('../../erros/ErroValidacao');
 const DadosNaoFornecidos = require('../../erros/DadosNaoFornecidos');
+const Modelo = require('./modeloTabelaFornecedor');
 
 class Fornecedor {
     constructor({ id, empresa, email, categoria, dataCriacao, dataAtualizacao, versao }) {
@@ -14,8 +16,8 @@ class Fornecedor {
     }
 
     async criar() {
-        this.validar();
-        const resultado = await TabelaFornecedor.inserir({
+        await this.validar();
+        const resultado = TabelaFornecedor.inserir({
             empresa: this.empresa,
             email: this.email,
             categoria: this.categoria
@@ -57,14 +59,18 @@ class Fornecedor {
         return TabelaFornecedor.remover(this.id);
     }
 
-    validar() {
-        const campos = ['empresa', 'email', 'categoria'];
-        campos.forEach(campo => {
-            const valor = this[campo];
-            if(typeof valor !== 'string' || valor.length === 0) {
-                throw new CampoInvalido(campo);
-            }
-        })
+    async validar() {
+        let modeloFornecedorBuild = Modelo.build({
+            empresa: this.empresa,
+            email: this.email,
+            categoria: this.categoria
+        });
+
+        let errosDeValidacao = await modeloFornecedorBuild.validate().catch(err => err.errors);
+
+        if(errosDeValidacao.length) {
+            throw new ErroValidacao(errosDeValidacao[0].message);
+        }
     }
 
 }

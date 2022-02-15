@@ -7,6 +7,7 @@ const NaoEncontrado = require('./erros/NaoEncontrado');
 const CampoInvalido = require('./erros/CampoInvalido');
 const DadosNaoFornecidos = require('./erros/DadosNaoFornecidos');
 const ValorNaoSuportado = require('./erros/ValorNaoSuportado');
+const ErroValidacao = require('./erros/ErroValidacao');
 const formatosAceitos = require('./Serializador').formatosAceitos;
 const SerializadorErro = require('./Serializador').SerializadorErro;
 
@@ -44,7 +45,7 @@ app.use((erro, req, res, proximo) => {
         status = 400;
     }
 
-    if(erro instanceof ValorNaoSuportado) {
+    if(erro instanceof ValorNaoSuportado || erro instanceof ErroValidacao) {
         status = 406;
     }
 
